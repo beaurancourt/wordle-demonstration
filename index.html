@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wordle &amp; the Shape of Difficulty — a variant lab</title>
+<meta name="description" content="Wordle, Absurdle and friends are one engine with different host policies. A demo of static vs dynamic difficulty, measured in bits of information." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <h1>Wordle &amp; the Shape of Difficulty</h1>
+  <p class="tagline">Six guessing games, one engine. The only thing that changes is
+    <em>how much information the host is willing to give you</em> — measured in bits.</p>
+  <button id="themeToggle" class="theme-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
+</header>
+
+<nav class="modes" id="modeNav" aria-label="Game variants"><!-- tabs injected --></nav>
+
+<main>
+  <!-- ============ PLAY VIEW ============ -->
+  <section id="playView">
+    <div class="play-grid">
+      <div class="board-col">
+        <div class="mode-head">
+          <h2 id="modeTitle">Original</h2>
+          <p id="modeBlurb" class="blurb"></p>
+        </div>
+        <div id="board" class="board" aria-label="Guess board"></div>
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+        <div id="keyboard" class="keyboard" aria-label="Keyboard"></div>
+        <div class="controls">
+          <button id="newGame" class="btn">New game</button>
+          <label class="overlay-toggle">
+            <input type="checkbox" id="overlayToggle" />
+            <span>Show information overlay</span>
+          </label>
+        </div>
+      </div>
+
+      <aside class="info-col" id="infoCol" hidden>
+        <h3>Information readout <span class="hint">(3Blue1Brown's bits)</span></h3>
+        <div class="meters">
+          <div class="meter">
+            <div class="meter-label">Uncertainty remaining</div>
+            <div class="meter-value"><span id="uncBits">11.18</span> bits</div>
+            <div class="meter-sub"><span id="candCount">2315</span> answers still possible</div>
+          </div>
+        </div>
+
+        <div class="guess-coach" id="guessCoach">
+          <div class="coach-row">
+            <span class="coach-k">Best guess now</span>
+            <span class="coach-v" id="bestGuessVal"><b>raise</b> · 5.88 bits expected</span>
+          </div>
+          <div class="coach-row" id="yourGuessRow" hidden>
+            <span class="coach-k">Your last guess</span>
+            <span class="coach-v"><b id="yourWord">—</b> · <span id="yourBits">0</span> bits expected</span>
+          </div>
+        </div>
+
+        <table class="trace" id="trace">
+          <thead><tr><th>#</th><th>Guess</th><th>Expected</th><th>Realized</th><th class="gap-h">Host's thumb</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="explain" id="explainGap"></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ LAB VIEW ============ -->
+  <section id="labView" hidden>
+    <div class="mode-head">
+      <h2>Comparison Lab</h2>
+      <p class="blurb">Type one sequence of guesses. Watch every host react to the
+        <em>same</em> guesses at once. The bars show realized information per guess —
+        the generous hosts hand you tall bars, the adversaries keep them short.</p>
+    </div>
+    <form id="labForm" class="lab-form" autocomplete="off">
+      <input id="labInput" type="text" maxlength="5" placeholder="5-letter word"
+        pattern="[A-Za-z]{5}" aria-label="Lab guess input" />
+      <button class="btn" type="submit">Add guess</button>
+      <button class="btn ghost" type="button" id="labReset">Reset</button>
+      <span class="lab-tip">Try: <code>crane</code>, <code>pilot</code>, <code>moist</code>…</span>
+    </form>
+    <div id="labGrid" class="lab-grid"></div>
+  </section>
+
+  <!-- ============ MYSTERY VIEW ============ -->
+  <section id="mysteryView" hidden>
+    <div class="mode-head">
+      <h2>Mystery Host <span class="hint">— who are you really playing?</span></h2>
+      <p class="blurb">One of the hosts is sitting across from you. You won't be told
+        which until the end. From <em>inside</em> the game, can you feel the difference
+        between an honest secret word and a scheming adversary? Watch the realized-bits
+        column — that's your only tell.</p>
+    </div>
+    <div class="play-grid with-info">
+      <div class="board-col">
+        <div id="mysteryBoard" class="board"></div>
+        <div id="mysteryMessage" class="message" role="status" aria-live="polite"></div>
+        <div id="mysteryKeyboard" class="keyboard"></div>
+        <div class="controls">
+          <button id="mysteryNew" class="btn">New mystery</button>
+          <button id="mysteryReveal" class="btn ghost">I give up — reveal</button>
+        </div>
+      </div>
+      <aside class="info-col">
+        <h3>Your only tell</h3>
+        <table class="trace" id="mysteryTrace">
+          <thead><tr><th>#</th><th>Guess</th><th>Expected</th><th>Realized</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div id="mysteryVerdict" class="verdict" hidden></div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>One engine, swappable host policies. Word lists are open data; Absurdle is by
+     <a href="https://qntm.org/absurdle" target="_blank" rel="noopener">qntm</a>;
+     the information framing follows
+     <a href="https://www.youtube.com/watch?v=v68zYyaEmEA" target="_blank" rel="noopener">3Blue1Brown's Wordle video</a>.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
