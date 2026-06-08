@@ -20,7 +20,7 @@
 <main>
   <!-- ============ PLAY VIEW ============ -->
   <section id="playView">
-    <div class="play-grid">
+    <div class="play-grid with-info">
       <div class="board-col">
         <div class="mode-head">
           <h2 id="modeTitle">Original</h2>
@@ -32,13 +32,13 @@
         <div class="controls">
           <button id="newGame" class="btn">New game</button>
           <label class="overlay-toggle">
-            <input type="checkbox" id="overlayToggle" />
+            <input type="checkbox" id="overlayToggle" checked />
             <span>Show information overlay</span>
           </label>
         </div>
       </div>
 
-      <aside class="info-col" id="infoCol" hidden>
+      <aside class="info-col" id="infoCol">
         <h3>Information readout <span class="hint">(3Blue1Brown's bits)</span></h3>
         <div class="meters">
           <div class="meter">
