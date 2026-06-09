@@ -7,16 +7,8 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const fmt = (b) => (b === Infinity ? "∞" : b.toFixed(2));
 const STATE_CLASS = ["gray", "yellow", "green"];
 
-// ---------- theme ----------
-const themeToggle = $("#themeToggle");
-const savedTheme = localStorage.getItem("wv-theme");
-if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-else if (matchMedia("(prefers-color-scheme: dark)").matches) document.documentElement.dataset.theme = "dark";
-themeToggle.onclick = () => {
-  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-  document.documentElement.dataset.theme = next;
-  localStorage.setItem("wv-theme", next);
-};
+// Theme follows the visitor's OS preference automatically (see prefers-color-scheme
+// in styles.css); there is no manual toggle.
 
 // ---------- keyboard rendering ----------
 // "sp" = half-width spacer (indents the middle row like real Wordle).
