@@ -1,5 +1,7 @@
 # Wordle & the Shape of Difficulty
 
+### ▶ Play it live: **https://beaurancourt.github.io/wordle-demonstration/**
+
 A small static site that demonstrates a family of Wordle variants to make one
 point precise: **all of these games are the same engine with a different "host
 policy," and the only thing that really changes between them is how much
