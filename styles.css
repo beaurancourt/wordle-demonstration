@@ -115,11 +115,12 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 4px 12px 40px; }
 .keyboard { display: flex; flex-direction: column; gap: 6px; margin: 10px auto 0; width: min(460px, 96vw); }
 .krow { display: flex; gap: 5px; justify-content: center; }
 .key {
-  flex: 1 1 auto; min-width: 0; height: 50px; border: none; border-radius: 5px;
+  flex: 1 1 0; min-width: 0; height: 50px; border: none; border-radius: 5px;
   background: var(--key-bg); color: var(--key-fg); font-weight: 700; font-size: .8rem;
   text-transform: uppercase; cursor: pointer; display: grid; place-items: center;
 }
-.key.wide { flex: 1.6 1 auto; font-size: .68rem; }
+.key.wide { flex: 1.5 1 0; font-size: .68rem; }
+.kspacer { flex: .5 1 0; }
 .key.green { background: var(--green); color: #fff; }
 .key.yellow { background: var(--yellow); color: #fff; }
 .key.gray { background: var(--gray); color: #fff; }

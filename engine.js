@@ -139,7 +139,7 @@ export const POLICIES = {
   // Gag mode — the answer teleports to be exactly your guess.
   alwaysRight: {
     label: "Always Right",
-    blurb: "The answer is whatever you just typed. You win on move 1, every time — a full ~11 bits handed over at once. Useful only as the degenerate extreme of 'maximum information'.",
+    blurb: "The answer is whatever you just typed. You win on move 1, every time, handing over a full ~11 bits at once. It's the degenerate extreme of maximum information.",
     needsSecret: false,
     guessLimit: 6,
     select: () => ALL_GREEN,
@@ -148,7 +148,7 @@ export const POLICIES = {
   // Benevolent adversary — collapses your candidate set as fast as possible.
   easy: {
     label: "Easy",
-    blurb: "A host rooting for you. Each guess it reveals near the top of what's possible — far more than an honest guess would — collapsing your candidates fast without quite handing you the win.",
+    blurb: "A host rooting for you. Each guess it reveals near the top of what's possible, far more than an honest guess would, collapsing your candidates fast without quite handing you the win.",
     needsSecret: false,
     guessLimit: 6,
     select: (buckets, ctx) => pickByInfoLevel(buckets, ctx.candidates.length, 0.72),

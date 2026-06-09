@@ -19,19 +19,31 @@ themeToggle.onclick = () => {
 };
 
 // ---------- keyboard rendering ----------
-const KEY_ROWS = ["qwertyuiop", "asdfghjkl", "ZxcvbnmB"]; // Z=Enter, B=Back
+// "sp" = half-width spacer (indents the middle row like real Wordle).
+const KEY_ROWS = [
+  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+  ["sp", "a", "s", "d", "f", "g", "h", "j", "k", "l", "sp"],
+  ["Enter", "z", "x", "c", "v", "b", "n", "m", "Backspace"],
+];
 function buildKeyboard(container, onKey) {
   container.innerHTML = "";
-  for (const rowStr of KEY_ROWS) {
+  for (const rowKeys of KEY_ROWS) {
     const row = document.createElement("div");
     row.className = "krow";
-    for (const ch of rowStr) {
+    for (const k of rowKeys) {
+      if (k === "sp") {
+        const sp = document.createElement("div");
+        sp.className = "kspacer";
+        row.appendChild(sp);
+        continue;
+      }
       const key = document.createElement("button");
       key.className = "key";
-      if (ch === "Z") { key.textContent = "Enter"; key.classList.add("wide"); key.dataset.key = "Enter"; }
-      else if (ch === "B") { key.textContent = "⌫"; key.classList.add("wide"); key.dataset.key = "Backspace"; }
-      else { key.textContent = ch; key.dataset.key = ch; }
-      key.onclick = () => onKey(key.dataset.key);
+      if (k === "Enter") { key.textContent = "Enter"; key.classList.add("wide"); }
+      else if (k === "Backspace") { key.textContent = "⌫"; key.classList.add("wide"); }
+      else key.textContent = k;
+      key.dataset.key = k;
+      key.onclick = () => onKey(k);
       row.appendChild(key);
     }
     container.appendChild(row);
@@ -101,7 +113,7 @@ class PlayController {
     if (this.game.won) this.message(`Solved in ${this.game.guessesUsed}! 🎉`, "win");
     else if (this.game.over) {
       const ans = this.game.secret || this.game.candidates[0] || "—";
-      this.message(`Out of guesses — answer: ${ans.toUpperCase()}`, "lose");
+      this.message(`Out of guesses. Answer: ${ans.toUpperCase()}`, "lose");
     }
     this.onUpdate(this, move);
   }
@@ -192,7 +204,7 @@ function updateOverlay(ctrl) {
   if (ctrl.game.over) {
     bestVal.innerHTML = "<b>—</b>";
   } else if (cands.length === 1) {
-    bestVal.innerHTML = `<b>${cands[0].toUpperCase()}</b> · the only answer left — guess it to win`;
+    bestVal.innerHTML = `<b>${cands[0].toUpperCase()}</b> · the only answer left, guess it to win`;
   } else {
     const bg = bestGuess(cands);
     bestVal.innerHTML = bg.word
@@ -235,9 +247,9 @@ function explainGap(ctrl) {
   // Judge by the AVERAGE gap per guess, not the total — an honest secret has
   // real variance, and a couple of lucky guesses shouldn't read as a rigged host.
   const mean = ctrl.moves.reduce((a, m) => a + (m.realized - m.expected), 0) / ctrl.moves.length;
-  if (mean > 0.4) el.textContent = "Realized is running ahead of expected — this host keeps handing you more information than an average guess would earn.";
-  else if (mean < -0.4) el.textContent = "Realized keeps falling short of expected — this host is steering you into the biggest surviving group, starving you of information. That's the adversary's signature.";
-  else el.textContent = "Realized is tracking expected — the hallmark of an honest, pre-committed secret word (the gaps are just luck).";
+  if (mean > 0.4) el.textContent = "Realized is running ahead of expected. This host keeps handing you more information than an average guess would earn.";
+  else if (mean < -0.4) el.textContent = "Realized keeps falling short of expected. This host is steering you into the biggest surviving group, starving you of information. That's the adversary's signature.";
+  else el.textContent = "Realized is tracking expected, the hallmark of an honest, pre-committed secret word. The gaps are just luck.";
 }
 
 // ============================================================
@@ -376,9 +388,9 @@ function revealMystery(ctrl, gaveUp = false) {
   const p = POLICIES[mysteryKey];
   const total = ctrl.moves.reduce((a, m) => a + (m.realized - m.expected), 0);
   let tell;
-  if (mysteryKey === "original") tell = "Realized bits hugged the expected line — the fingerprint of an honest, fixed secret.";
-  else if (mysteryKey === "absurdle" || mysteryKey === "hard") tell = `Realized fell short of expected by ${(-total).toFixed(2)} bits total — the host was steering you into the biggest groups.`;
-  else tell = `Realized beat expected by ${total.toFixed(2)} bits total — the host was quietly helping you.`;
+  if (mysteryKey === "original") tell = "Realized bits hugged the expected line, the fingerprint of an honest, fixed secret.";
+  else if (mysteryKey === "absurdle" || mysteryKey === "hard") tell = `Realized fell short of expected by ${(-total).toFixed(2)} bits total. The host was steering you into the biggest groups.`;
+  else tell = `Realized beat expected by ${total.toFixed(2)} bits total. The host was quietly helping you.`;
   v.hidden = false;
   v.className = "verdict" + (ctrl.game.won ? " win" : "");
   v.innerHTML = `<h4>It was: ${p.label}</h4><p>${p.blurb}</p><p><b>The tell:</b> ${tell}</p>`;

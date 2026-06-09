@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Wordle &amp; the Shape of Difficulty — a variant lab</title>
+<title>Wordle &amp; the Shape of Difficulty</title>
 <meta name="description" content="Wordle, Absurdle and friends are one engine with different host policies. A demo of static vs dynamic difficulty, measured in bits of information." />
 <link rel="stylesheet" href="styles.css" />
 </head>
@@ -11,7 +11,7 @@
 <header class="topbar">
   <h1>Wordle &amp; the Shape of Difficulty</h1>
   <p class="tagline">Six guessing games, one engine. The only thing that changes is
-    <em>how much information the host is willing to give you</em> — measured in bits.</p>
+    <em>how much information the host is willing to give you</em>, measured in bits.</p>
   <button id="themeToggle" class="theme-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">◐</button>
 </header>
 
@@ -73,8 +73,8 @@
     <div class="mode-head">
       <h2>Comparison Lab</h2>
       <p class="blurb">Type one sequence of guesses. Watch every host react to the
-        <em>same</em> guesses at once. The bars show realized information per guess —
-        the generous hosts hand you tall bars, the adversaries keep them short.</p>
+        <em>same</em> guesses at once. The bars show realized information per guess.
+        Generous hosts hand you tall bars; adversaries keep them short.</p>
     </div>
     <form id="labForm" class="lab-form" autocomplete="off">
       <input id="labInput" type="text" maxlength="5" placeholder="5-letter word"
@@ -89,11 +89,11 @@
   <!-- ============ MYSTERY VIEW ============ -->
   <section id="mysteryView" hidden>
     <div class="mode-head">
-      <h2>Mystery Host <span class="hint">— who are you really playing?</span></h2>
+      <h2>Mystery Host <span class="hint">(who are you really playing?)</span></h2>
       <p class="blurb">One of the hosts is sitting across from you. You won't be told
         which until the end. From <em>inside</em> the game, can you feel the difference
         between an honest secret word and a scheming adversary? Watch the realized-bits
-        column — that's your only tell.</p>
+        column. That's your only tell.</p>
     </div>
     <div class="play-grid with-info">
       <div class="board-col">
@@ -102,7 +102,7 @@
         <div id="mysteryKeyboard" class="keyboard"></div>
         <div class="controls">
           <button id="mysteryNew" class="btn">New mystery</button>
-          <button id="mysteryReveal" class="btn ghost">I give up — reveal</button>
+          <button id="mysteryReveal" class="btn ghost">Reveal the host</button>
         </div>
       </div>
       <aside class="info-col">
