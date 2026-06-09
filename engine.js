@@ -93,15 +93,22 @@ function nonWinSorted(buckets) {
   return nonWin;
 }
 
+// How much random wobble to add to the target info-level each guess. Keeps the
+// Easy/Medium/Hard hosts centered where they are, but stops them from making the
+// exact same move on the exact same board every time (less robotic, less gameable).
+const INFO_JITTER = 0.1;
+
 // Pick the honest bucket whose realized information is at level `alpha` of the
-// range available on this guess (0 = least info / largest bucket, 1 = most).
-function pickByInfoLevel(buckets, candCount, alpha) {
+// range available on this guess (0 = least info / largest bucket, 1 = most),
+// nudged by a little entropy.
+function pickByInfoLevel(buckets, candCount, alpha, rng = Math.random) {
   const nonWin = nonWinSorted(buckets); // small -> large by size
   if (nonWin.length === 0) return ALL_GREEN;
   const info = (size) => Math.log2(candCount / size);
   const mostInfo = info(nonWin[0][1].length);                     // smallest bucket
   const leastInfo = info(nonWin[nonWin.length - 1][1].length);    // largest bucket
-  const target = leastInfo + alpha * (mostInfo - leastInfo);
+  const a = Math.min(1, Math.max(0, alpha + (rng() * 2 - 1) * INFO_JITTER));
+  const target = leastInfo + a * (mostInfo - leastInfo);
   let best = nonWin[0][0], bestDist = Infinity;
   for (const [code, arr] of nonWin) {
     const d = Math.abs(info(arr.length) - target);
