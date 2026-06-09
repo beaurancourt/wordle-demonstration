@@ -158,7 +158,6 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 4px 12px 40px; }
 .bar { height: 9px; border-radius: 5px; background: var(--accent); display: inline-block; vertical-align: middle; }
 .thumb-pos { color: var(--green); }
 .thumb-neg { color: #c0392b; }
-.explain { font-size: .82rem; color: var(--muted); margin: 12px 2px 0; }
 
 /* ---------- lab ---------- */
 .lab-form { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }

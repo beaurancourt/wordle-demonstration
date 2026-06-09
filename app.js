@@ -227,21 +227,6 @@ function updateOverlay(ctrl) {
       `<td class="${gap >= 0 ? "thumb-pos" : "thumb-neg"}">${gap >= 0 ? "+" : ""}${gap.toFixed(2)}</td>`;
     tbody.appendChild(tr);
   });
-  explainGap(ctrl);
-}
-
-function explainGap(ctrl) {
-  const el = $("#explainGap");
-  if (!ctrl.moves.length) {
-    el.textContent = "Expected = the bits a guess earns on average (host-independent). Realized = the bits the host actually let you keep. Their difference is the host's thumb on the scale.";
-    return;
-  }
-  // Judge by the AVERAGE gap per guess, not the total — an honest secret has
-  // real variance, and a couple of lucky guesses shouldn't read as a rigged host.
-  const mean = ctrl.moves.reduce((a, m) => a + (m.realized - m.expected), 0) / ctrl.moves.length;
-  if (mean > 0.4) el.textContent = "Realized is running ahead of expected. This host keeps handing you more information than an average guess would earn.";
-  else if (mean < -0.4) el.textContent = "Realized keeps falling short of expected. This host is steering you into the biggest surviving group, starving you of information. That's the adversary's signature.";
-  else el.textContent = "Realized is tracking expected, the hallmark of an honest, pre-committed secret word. The gaps are just luck.";
 }
 
 // ============================================================
