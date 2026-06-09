@@ -51,7 +51,7 @@ body {
   padding: 22px 16px 14px;
   border-bottom: 1px solid var(--line);
 }
-.topbar h1 { margin: 0; font-size: clamp(1.3rem, 3.4vw, 2rem); letter-spacing: .2px; }
+.topbar h1 { margin: 0; padding: 0 46px; font-size: clamp(1.15rem, 3.4vw, 2rem); letter-spacing: .2px; }
 .tagline { margin: 6px auto 0; max-width: 640px; color: var(--muted); font-size: .95rem; }
 .tagline em { color: var(--fg); font-style: normal; font-weight: 600; }
 .theme-toggle {
@@ -201,4 +201,21 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 4px 12px 40px; }
 @media (max-width: 860px) {
   .play-grid.with-info { grid-template-columns: minmax(0,1fr); }
   .info-col { max-width: 460px; }
+}
+
+@media (max-width: 520px) {
+  .topbar { padding: 16px 12px 12px; }
+  .topbar h1 { font-size: 1.1rem; padding: 0 40px; }
+  .tagline { font-size: .82rem; }
+  .theme-toggle { width: 32px; height: 32px; top: 12px; right: 10px; font-size: 1rem; }
+  main { padding: 4px 10px 32px; }
+
+  /* keyboard: respect the page gutters and keep keys from looking stretched */
+  .keyboard { width: 100%; gap: 5px; }
+  .krow { gap: 4px; }
+  .key { height: 44px; font-size: .76rem; border-radius: 4px; }
+  .key.wide { font-size: .58rem; }
+
+  .board { width: min(330px, 88vw); }
+  .controls { gap: 12px; }
 }
